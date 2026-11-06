@@ -1,0 +1,168 @@
+FOCUS · ТАЙМЕР — ИНСТРУКЦИЯ
+============================
+
+Эта папка подготовлена для публикации проекта на GitHub.
+Внутри уже есть исходный код, тесты, README, лицензия и готовый EXE.
+
+
+1. САМЫЙ БЫСТРЫЙ ЗАПУСК
+------------------------
+
+Запустите:
+
+    release\FocusTimer.exe
+
+Python и установка библиотек не нужны.
+
+Файл не подписан цифровой подписью, поэтому Windows SmartScreen может
+показать предупреждение. Для открытого проекта без платной подписи это
+нормально: выберите «Подробнее» → «Выполнить в любом случае», если доверяете
+файлу.
+
+
+2. ЗАПУСК ИЗ ИСХОДНИКОВ
+------------------------
+
+Понадобится Windows 10/11 и Python 3.10+ с Tkinter.
+Откройте PowerShell в этой папке и выполните по очереди:
+
+    py -m venv .venv
+    .\.venv\Scripts\python.exe -m pip install -r requirements.txt
+    Start-Process -FilePath ".\.venv\Scripts\pythonw.exe" -ArgumentList "focus_timer.pyw"
+
+Если команда `py` не найдена, попробуйте вместо неё `python`:
+
+    python -m venv .venv
+    .\.venv\Scripts\python.exe -m pip install -r requirements.txt
+    Start-Process -FilePath ".\.venv\Scripts\pythonw.exe" -ArgumentList "focus_timer.pyw"
+
+Используется `pythonw.exe`, поэтому консольное окно не открывается.
+Не запускайте приложение через `python.exe`, `.bat` или `.cmd` для
+повседневной работы: они могут показывать консоль.
+
+Можно также открыть `focus_timer.pyw` двойным щелчком, если Windows
+связывает `.pyw` с `pythonw.exe`, а CustomTkinter установлен в том же
+интерпретаторе.
+
+
+3. ПРОВЕРКА ПРОЕКТА
+--------------------
+
+Из папки `FocusTimer-GitHub`:
+
+    .\.venv\Scripts\python.exe -m unittest discover -s tests -v
+    .\.venv\Scripts\python.exe -m py_compile focus_timer.pyw
+
+
+4. СБОРКА EXE
+--------------
+
+Установите PyInstaller и соберите приложение:
+
+    .\.venv\Scripts\python.exe -m pip install pyinstaller
+    .\.venv\Scripts\python.exe -m PyInstaller --noconfirm --clean --onefile --noconsole --collect-all customtkinter --collect-all pystray --name FocusTimer focus_timer.pyw
+
+Результат появится в:
+
+    dist\FocusTimer.exe
+
+Сборку нужно выполнять в Windows. После сборки можно заменить файл
+`release\FocusTimer.exe` новым.
+
+
+5. ГДЕ ХРАНЯТСЯ НАСТРОЙКИ
+--------------------------
+
+    %LOCALAPPDATA%\FocusTimer\settings.json
+
+Там сохраняются звук, громкость, режим «Поверх окон» и последняя
+длительность. Чтобы сбросить настройки, удалите этот файл.
+
+Лог ошибок:
+
+    %LOCALAPPDATA%\FocusTimer\focus_timer.log
+
+
+6. КАК ВЫЛОЖИТЬ НА GITHUB
+--------------------------
+
+Создайте пустой репозиторий на github.com (без README и без .gitignore).
+
+Вариант A. Через Git в PowerShell
+---------------------------------
+
+Если Git не установлен, установите его:
+
+    winget install --id Git.Git -e --source winget
+
+После установки закройте и снова откройте PowerShell. Затем:
+
+    cd C:\Users\surnin\Desktop\timer\FocusTimer-GitHub
+    git init
+    git add .
+    git commit -m "Initial commit"
+    git branch -M main
+    git remote add origin https://github.com/ВАШ_ЛОГИН/FocusTimer.git
+    git push -u origin main
+
+Замените ВАШ_ЛОГИН на свой логин GitHub.
+
+Вариант B. GitHub Desktop
+--------------------------
+
+1. Установите GitHub Desktop.
+2. Выберите «Add existing repository» и укажите папку FocusTimer-GitHub.
+3. Нажмите «Publish repository».
+4. Выберите публичный репозиторий.
+
+Вариант C. Загрузка через сайт
+------------------------------
+
+На странице нового репозитория GitHub выберите «uploading an existing file»
+и перетащите файлы из этой папки. При загрузке через сайт вложенные папки
+`tests`, `docs`, `licenses` могут не сохраниться автоматически — надёжнее
+использовать Git или GitHub Desktop. Файл `release\FocusTimer.exe` в
+репозиторий коммитить не нужно — он предназначен для GitHub Releases.
+
+Файл `.gitignore` уже настроен так, чтобы в репозиторий не попадали
+`.venv`, `build`, `dist`, `release`, `*.exe`, `__pycache__`
+и локальные настройки.
+
+
+7. КАК ОПУБЛИКОВАТЬ EXE В RELEASES
+-----------------------------------
+
+1. Откройте репозиторий на GitHub.
+2. Перейдите в раздел «Releases» → «Draft a new release».
+3. Укажите тег, например `v1.0.0`.
+4. Прикрепите файл `release\FocusTimer.exe` в поле «Attach binaries».
+5. Опубликуйте релиз.
+
+Ссылку на релиз можно добавить в README вместо прямой ссылки на EXE.
+
+
+8. ЧТО НЕ НУЖНО КОММИТИТЬ
+--------------------------
+
+Не добавляйте в Git:
+
+    .venv/
+    build/
+    dist/
+    release/
+    __pycache__/
+    *.exe
+    *.log
+    settings.json
+
+Эти правила уже прописаны в `.gitignore`.
+
+
+9. ЛИЦЕНЗИИ
+------------
+
+Код проекта — MIT, см. `LICENSE`.
+
+Сторонние библиотеки и их лицензии перечислены в
+`THIRD_PARTY_NOTICES.md`, полные тексты — в папке `licenses/`.
+При публикации EXE сохраняйте эти файлы в репозитории и/или рядом с релизом.

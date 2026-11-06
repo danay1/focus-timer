@@ -1,0 +1,24 @@
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.pyd
+.pytest_cache/
+
+# PyInstaller
+build/
+dist/
+release/
+*.exe
+
+# Local data
+*.log
+settings.json
+*.tmp
+
+# Editors and OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
